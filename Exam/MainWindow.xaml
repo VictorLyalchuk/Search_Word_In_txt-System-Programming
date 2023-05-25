@@ -1,0 +1,86 @@
+﻿<Window x:Class="Exam.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exam"
+        d:DataContext="{d:DesignInstance local:ViewModel}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="650" MinWidth="800" MaxHeight="650" MaxWidth="800">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Padding" Value="5"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="IsReadOnly" Value="true"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="MaxWidth" Value="200" ></Setter>
+        </Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MaterialDesignLabel}">
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top">
+            <Button Content="Select folder: " MinWidth="150"></Button>
+            <TextBox Text="{Binding Source}" Name="TextBoxTo" MinWidth="450" ></TextBox>
+            <Button Click="Button_Click_Browse_Folder" Content="Browse Folder" ></Button>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Content="Write the word: " MinWidth="150"></Button>
+            <TextBox Text="{Binding Word}" Name="TextBoxFrom" MinWidth="450" IsReadOnly="False" ></TextBox>
+            <Button Click="Button_Click_Search_ForAsync" Content="Search For"></Button>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Button Click="Button_Click" MinWidth="380" MaxWidth="350" Content="Clear List"></Button>
+            <Button Name="SaveButton" Click="Button_Click_1" MinWidth="380" MaxWidth="350" Content="Save in File" IsEnabled="False"></Button>
+        </DockPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox Name="MyList" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Processes}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card
+                              Background="{DynamicResource PrimaryHueDarkBrush}"
+                              Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                              Padding="8"
+                              UniformCornerRadius="6">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{Binding FileName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                                <TextBlock Grid.Row="1"><Run Text="{Binding Path, Mode=OneWay}"></Run></TextBlock>
+                                <Separator Grid.Row="2" Style="{StaticResource MaterialDesignLightSeparator}" />
+                                <TextBlock Grid.Row="3" ><Run Text="{Binding CountWord, Mode=OneWay}"></Run> Words found</TextBlock>
+                                <ProgressBar Grid.Row="4" Foreground="{StaticResource PrimaryHueMidBrush}" Height="15" Value="{Binding Percentage}" ></ProgressBar>
+                            </Grid>
+                        </materialDesign:Card>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DockPanel>
+</Window>
